@@ -3,9 +3,10 @@ var fs = require('fs');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'cheap-source-map',
     entry: {
         bundle: './src/index.js',
         vendor: ['react', 'react-router'],
@@ -14,11 +15,14 @@ module.exports = {
         path: path.join(__dirname, 'static'),
         filename: '[name]-[chunkhash].js',
         chunkFilename: '[name]-[chunkhash].js]',
-        publicPath: '/static/',
+        publicPath: './',
     },
     plugins: [
+        new CleanWebpackPlugin([
+            'static'
+        ]),
         new HtmlWebpackPlugin({
-            filename: './layouts/index.html',
+            filename: './index.html',
             template: './src/index.html',
             inject: 'body',
         }),
@@ -27,6 +31,7 @@ module.exports = {
         new webpack.DefinePlugin({
         }),
         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-[chunkhash].js'),
+        new webpack.optimize.CommonsChunkPlugin('common.js'),
     ],
     module: {
         loaders: [{
