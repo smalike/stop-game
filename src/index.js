@@ -20,15 +20,27 @@ class Stop extends Component{
             width: 100,
             height: 30
         }];
+        let left = containerWH;
+        let top = containerWH;
+        let column = 2;
         let monsterList = monsterDatas.map((item, i) => {
-            let [x, y] = [10, 10];
+            let remainder = i % column;
+            let x = remainder * left;
+            let y = ~~(i / column) * top;
             return (
-                <Monster bg="#3b4086" width="{item.width}" height="{item.height}" x="{x}" y="{y}"/>
+                <Monster key={i} bg="#3b4086" width={item.width} height={item.height} x={x} y={y}/>
             );
         });
+        let heroData = {
+            bg: '#8a3c3c',
+            width: 50,
+            height: 50,
+            x: containerWH / 2,
+            y: containerWH / 2,
+        };
         return (
             <div style={Styles.container}>
-                <Hero />
+                <Hero bg={heroData.bg} width={heroData.width} height={heroData.height} x={heroData.x} y={heroData.y}/>
                 {monsterList}
             </div>
         );

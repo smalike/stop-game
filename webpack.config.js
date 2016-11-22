@@ -15,12 +15,12 @@ module.exports = {
         path: path.join(__dirname, 'static'),
         filename: '[name]-[chunkhash].js',
         chunkFilename: '[name]-[chunkhash].js]',
-        publicPath: './',
+        publicPath: '/static/',
     },
     plugins: [
-        new CleanWebpackPlugin([
-            'static'
-        ]),
+        //new CleanWebpackPlugin([
+        //    'static'
+        //]),
         new HtmlWebpackPlugin({
             filename: './index.html',
             template: './src/index.html',

@@ -8,7 +8,7 @@ class Monster extends Component{
     render() {
         let {bg, width, height, x, y} = this.props;
         return (
-            <Base bg="#3b4086" width="{width}" height="{height}" x="{x}" y="{y}"/>
+            <Base bg={bg} width={width} height={height} x={x} y={y}/>
         );
     }
 }

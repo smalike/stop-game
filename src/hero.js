@@ -6,8 +6,9 @@ class Hero extends Component{
         super(params);
     }
     render() {
+        let {bg, width, height, x, y} = this.props;
         return (
-            <Base bg="#863b3b" width="50" height="50" x="10" y="10"/>
+            <Base bg={bg} width={width} height={height} x={x} y={y}/>
         );
     }
 }
