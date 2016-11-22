@@ -8,7 +8,7 @@ class Base extends Component{
     render() {
         let {bg, width, height, x, y} = this.props;
         return (
-            <div className="item" style={{background:bg,width:width,height:height,top:x,left:y}}></div>
+            <div className="item" style={{background:bg,width:width,height:height,top:y,left:x}}></div>
         );
     }
 
