@@ -6,9 +6,9 @@ class Base extends Component{
         super();
     }
     render() {
-        let {bg, width, height, x, y} = this.props;
+        let {bg, width, height} = this.props;
         return (
-            <div className="item" style={{background:bg,width:width,height:height,top:y,left:x}}></div>
+            <div style={{background:bg,width:width,height:height}}></div>
         );
     }
 
@@ -18,8 +18,6 @@ Base.propTypes = {
     bg: React.PropTypes.string.isRequired,
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
-    x: React.PropTypes.number.isRequired,
-    y: React.PropTypes.number.isRequired,
 };
 
 export default Base;

@@ -6,6 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    //devtool: 'cheap-module-eval-source-map',
     devtool: 'cheap-source-map',
     entry: {
         bundle: './src/index.js',
