@@ -41,9 +41,24 @@ class Hero extends Component{
             //console.log('moveHandler', e);
             //console.log(e.clientX, e.pageX);
             let {bg, width, height, x, y} = this.props;
+            let left = e.pageX - width / 2;
+            let top = e.pageY - height / 2;
             this.setState({
-                left: e.pageX - width / 2,
-                top: e.pageY - height / 2,
+                left: left,
+                top: top,
+            });
+            this.boundary(left, top);
+        }
+    }
+    boundary(left, top) {
+        let containerWH = this.context.containerWH;
+        let heroWidth = this.refs.hero.offsetWidth;
+        let heroHeight = this.refs.hero.offsetHeight;
+        //console.log('WH', heroWidth);
+        if (left <= 0 || top <= 0 || left + heroWidth >= containerWH || top + heroHeight >= containerWH) {
+            this.context.over();
+            this.setState({
+                isMove: false
             });
         }
     }
@@ -51,7 +66,7 @@ class Hero extends Component{
         let {bg, width, height, x, y} = this.props;
         let {left, top} = this.state;
         return (
-            <div className="item" onClick={this.clickHandler} onMouseUp={this.upHandler} onMouseDown={this.downHandler} onMouseMove={this.moveHandler.bind(this)} style={{left: left, top: top}}>
+            <div ref="hero" className="item" onClick={this.clickHandler} onMouseUp={this.upHandler} onMouseDown={this.downHandler} onMouseMove={this.moveHandler.bind(this)} style={{left: left, top: top}}>
             <Base bg={bg} width={width} height={height}/>
             </div>
         );
@@ -59,8 +74,9 @@ class Hero extends Component{
 }
 
 Hero.contextTypes = {
-    isBegin: React.PropTypes.boolean,
     begin: React.PropTypes.func,
+    over: React.PropTypes.func,
+    containerWH: React.PropTypes.number,
 };
 
 export default Hero;

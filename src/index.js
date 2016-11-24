@@ -9,6 +9,7 @@ class Stop extends Component{
     constructor() {
         super();
         this.begin = this.begin.bind(this);
+        this.over = this.over.bind(this);
         this.state = {
             isBegin: false,
         };
@@ -16,22 +17,23 @@ class Stop extends Component{
     getChildContext() {
         return {
             begin: this.begin,
-            isBegin: false,
+            over: this.over,
+            containerWH: containerWH,
         };
     }
     render() {
         let monsterDatas = [{
-            width: 80,
+            width: 40,
+            height: 60
+        }, {
+            width: 100,
+            height: 140
+        }, {
+            width: 100,
             height: 80
         }, {
-            width: 80,
-            height: 160
-        }, {
-            width: 100,
-            height: 100
-        }, {
-            width: 100,
-            height: 30
+            width: 160,
+            height: 40
         }];
         let {isBegin} = this.state;
         let left = containerWH;
@@ -66,11 +68,18 @@ class Stop extends Component{
             isBegin: true,
         });
     }
+    over() {
+        console.log('over');
+        this.setState({
+            isBegin: false,
+        });
+    }
 }
 
 Stop.childContextTypes = {
-    isBegin: React.PropTypes.boolean,
     begin: React.PropTypes.func,
+    over: React.PropTypes.func,
+    containerWH: React.PropTypes.number,
 };
 
 const Styles = {
