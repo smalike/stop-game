@@ -16,10 +16,9 @@ class Hero extends Component{
         };
     }
     clickHandler(e) {
-        console.log('clickHandler', e);
+        //console.log('clickHandler', e);
     }
     downHandler(e) {
-        console.log('downHandler', e);
         //e.currentTarget.addEventListener('mousemove', this.movehandler, false);
         this.setState({
             isMove: true
@@ -27,7 +26,7 @@ class Hero extends Component{
         this.context.begin();
     }
     upHandler(e) {
-        console.log('upHandler', e);
+        //console.log('upHandler', e);
         //e.currentTarget.removeEventListener('mousemove', this.movehandler, false);
         this.setState({
             isMove: false
@@ -37,9 +36,8 @@ class Hero extends Component{
         e.preventDefault();
         e.stopPropagation();
         let {isMove} = this.state;
-        if (isMove) {
-            //console.log('moveHandler', e);
-            //console.log(e.clientX, e.pageX);
+        let isBegin = this.context.getStatus();
+        if (isMove && isBegin) {
             let {bg, width, height, x, y} = this.props;
             let left = e.pageX - width / 2;
             let top = e.pageY - height / 2;
@@ -54,7 +52,6 @@ class Hero extends Component{
         let containerWH = this.context.containerWH;
         let heroWidth = this.refs.hero.offsetWidth;
         let heroHeight = this.refs.hero.offsetHeight;
-        //console.log('WH', heroWidth);
         if (left <= 0 || top <= 0 || left + heroWidth >= containerWH || top + heroHeight >= containerWH) {
             this.context.over();
             this.setState({
@@ -77,6 +74,7 @@ Hero.contextTypes = {
     begin: React.PropTypes.func,
     over: React.PropTypes.func,
     containerWH: React.PropTypes.number,
+    getStatus: React.PropTypes.func,
 };
 
 export default Hero;

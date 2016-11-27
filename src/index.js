@@ -4,12 +4,27 @@ import Hero from './hero';
 import Monster from './monster';
 
 const containerWH = 500;
+const monsterDatas = [{
+    width: 40,
+    height: 60
+}, {
+    width: 100,
+    height: 140
+}, {
+    width: 100,
+    height: 80
+}, {
+    width: 160,
+    height: 40
+}];
 
 class Stop extends Component{
     constructor() {
         super();
         this.begin = this.begin.bind(this);
         this.over = this.over.bind(this);
+        this.crash = this.crash.bind(this);
+        this.getStatus = this.getStatus.bind(this);
         this.state = {
             isBegin: false,
         };
@@ -19,22 +34,21 @@ class Stop extends Component{
             begin: this.begin,
             over: this.over,
             containerWH: containerWH,
+            crash: this.crash,
+            getStatus: this.getStatus,
+        };
+    }
+    crash() {
+        let {left, top} = this.refs.hero.state;
+        let {width, height} = this.refs.hero.props;
+        return {
+            heroLeft: left,
+            heroTop: top,
+            heroWidth: width,
+            heroHeight: height,
         };
     }
     render() {
-        let monsterDatas = [{
-            width: 40,
-            height: 60
-        }, {
-            width: 100,
-            height: 140
-        }, {
-            width: 100,
-            height: 80
-        }, {
-            width: 160,
-            height: 40
-        }];
         let {isBegin} = this.state;
         let left = containerWH;
         let top = containerWH;
@@ -57,7 +71,7 @@ class Stop extends Component{
         };
         return (
             <div style={Styles.container}>
-                <Hero bg={heroData.bg} width={heroData.width} height={heroData.height} x={heroData.x} y={heroData.y}/>
+                <Hero ref="hero" bg={heroData.bg} width={heroData.width} height={heroData.height} x={heroData.x} y={heroData.y}/>
                 {monsterList}
             </div>
         );
@@ -69,10 +83,12 @@ class Stop extends Component{
         });
     }
     over() {
-        console.log('over');
         this.setState({
             isBegin: false,
         });
+    }
+    getStatus() {
+        return this.state.isBegin;
     }
 }
 
@@ -80,6 +96,8 @@ Stop.childContextTypes = {
     begin: React.PropTypes.func,
     over: React.PropTypes.func,
     containerWH: React.PropTypes.number,
+    crash: React.PropTypes.func,
+    getStatus: React.PropTypes.func,
 };
 
 const Styles = {

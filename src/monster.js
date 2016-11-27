@@ -14,7 +14,6 @@ class Monster extends Component{
         };
     }
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps);
         if (nextProps.isBegin) {
             this.begin();
         }
@@ -27,6 +26,11 @@ class Monster extends Component{
     }
     move() {
         let {left, top, stepX, stepY} = this.state;
+        let isBegin = this.context.getStatus();
+        if (!isBegin) {
+            clearInterval(this.clearTimeId);
+            return false;
+        }
         this.setState({
             left: left + stepX,
             top: top + stepY,
@@ -35,15 +39,30 @@ class Monster extends Component{
         this.boundary(left, top, stepX, stepY);
     }
     crash(left, top, stepX, stepY) {
-        
+        let {width, height} = this.props;
+        let {heroLeft,
+            heroTop,
+            heroWidth,
+            heroHeight} = this.context.crash();
+        let subdupleWidth = width / 2;
+        let subdupleHeight = height / 2;
+        let centerX = subdupleWidth + left;
+        let centerY = subdupleHeight + top;
+        let heroCenterX = heroWidth / 2 + heroLeft;
+        let heroCenterY = heroHeight / 2 + heroTop;
+        let leftQuadrant = Math.abs(centerX - heroCenterX) + heroCenterX - subdupleWidth;
+        let topQuadrant = Math.abs(centerY - heroCenterY) + heroCenterY - subdupleHeight;
+        if (leftQuadrant < heroLeft + heroWidth && topQuadrant < heroTop + heroHeight) {
+            console.log('over');
+            clearInterval(this.clearTimeId);
+            this.context.over();
+        }
     }
     boundary(left, top, stepX, stepY) {
         let {width, height} = this.props;
         let containerWH = this.context.containerWH;
         stepX = Math.abs(stepX)
         stepY = Math.abs(stepY)
-        //console.log('stepX', stepX);
-        //console.log('stepY', stepY);
         if (left <= 0) {
             this.setState({
                 stepX: stepX
@@ -80,6 +99,8 @@ Monster.contextTypes = {
     begin: React.PropTypes.func,
     over: React.PropTypes.func,
     containerWH: React.PropTypes.number,
+    crash: React.PropTypes.func,
+    getStatus: React.PropTypes.func,
 };
 
 export default Monster;
